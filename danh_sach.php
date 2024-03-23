@@ -4,18 +4,36 @@ require 'model/BaseModel.php';
 require 'model/PostModel.php';
 
 $bai_viet = new PostModel();
-$bai_viet_bao_tang = $bai_viet->lay3BaiVietBaoTangLichSu();
-$bai_viet_cong_trinh = $bai_viet->layBaiVietCacCongTrinhGiaoThong();
-$bai_viet_ven_song = $bai_viet->layBaiVietDiaDiemVanSong();
+$danh_muc_id = !empty($_GET['danh_muc_id'])? $_GET['danh_muc_id'] : 1;
+$danh_sach_bai_viet = [];
+$total = 0;
+$current_page = !empty($_GET['page']) ? $_GET['page'] : 1;
+switch ($danh_muc_id) {
+    case 1:
+        $danh_sach_bai_viet = $bai_viet->layBaiVietBaoTangLichSu();
+        $total = $bai_viet->demBaiVietBaoTangLichSu();
+        break;
+    case 2:
+        break;
+    case 3:
+        break;
+}
+
+$page = ceil($total/2);//2 trang demo
 ?>
 
 <html>
     <head>
-        <title>Trang chủ</title>
+        <title>Danh sách bài viết theo danh mục</title>
         <script src="https://code.jquery.com/jquery-3.7.1.js" integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" crossorigin="anonymous"></script>
     </head>
     <body>
         <h1>Danh sách bài viết bài viết</h1>
+        <ul class="pagination">
+        <?php for ($index = 1; $index <= $page; $index++): ?>
+            <li><a href="/danh_sach.php?page=<?php echo $index ?>"><?php echo $index ?></a></li>
+        <?php endfor;?>
+        </ul>
         <table class="ds_bai_viet_bao_tang">
             <thead>
                 <tr>
@@ -27,7 +45,7 @@ $bai_viet_ven_song = $bai_viet->layBaiVietDiaDiemVanSong();
                 </tr>
             </thead>
             <tbody class="">
-                <?php foreach($bai_viet_bao_tang as $bv):?>
+                <?php foreach($danh_sach_bai_viet as $bv):?>
                 <tr class="bai_viet_bao_tang">
                     <td class="id"><?php echo $bv['id'] ?></td>
                     <td class="tieu_de"><?php echo $bv['tieu_de'] ?></td>
@@ -38,23 +56,7 @@ $bai_viet_ven_song = $bai_viet->layBaiVietDiaDiemVanSong();
                 <?php endforeach; ?>
             </tbody>
         </table>
-        <h2 class="tai_them_bv_bao_tang">Tải thêm</h2>
-    <script type="text/javascript">
-        $(document).ready(function(){
-            $(".tai_them_bv_bao_tang").click(function(){
-                link_url = '/api/tai_bai_viet.php?danh_muc_id=1'
-                $.ajax({url: link_url, success: function(result){
-                        var data = jQuery.parseJSON(result);
-                        $.each(data, function(index, value) {
-                           //Clone
-                            $new_row = $('.ds_bai_viet_bao_tang').find('tr:last').clone();
-                            $new_row.find('.id').val(value.id);
-                            //Add to table
-                            $('.ds_bai_viet_bao_tang').append($new_row);
-                        })
-                }});
-            });
-        });
-    </script>
+
+
     </body>
 </html>

@@ -2,7 +2,7 @@
 
 class PostModel extends BaseModel {
 
-    // Lay bai viet bao tang lich su
+    // Lay 3 bai viet bao tang lich su
     public function lay3BaiVietBaoTangLichSu() {
         $sql = 'SELECT * FROM bai_viet WHERE danh_muc_id = 1';
         $post = $this->select($sql);
@@ -14,6 +14,26 @@ class PostModel extends BaseModel {
         $bai_viet_random[1] = $post[$random[1]];
         $bai_viet_random[2] = $post[$random[2]];
         return $bai_viet_random;
+    }
+
+    // Lay bai viet bao tang lich su
+    public function layBaiVietBaoTangLichSu() {
+        $page = !empty($_GET['page']) ? $_GET['page'] : 1;
+        $from = 2 * ($page - 1);
+        $to =$from + 6;
+
+
+        $sql = 'SELECT * FROM bai_viet WHERE danh_muc_id = 1 LIMIT ' . $from . ', 2';
+        $post = $this->select($sql);
+
+        return $post;
+    }
+    // Dem bai viet bao tang lich su
+    public function demBaiVietBaoTangLichSu() {
+
+        $sql = 'SELECT * FROM bai_viet WHERE danh_muc_id = 1';
+        $post = $this->select($sql);
+        return count($post);
     }
 
     // Lay bai viet cac cong trinh giao thong
@@ -30,5 +50,14 @@ class PostModel extends BaseModel {
         $post = $this->select($sql);
 
         return $post;
+    }
+
+    public function xemChiTiet($id) {
+        $sql = 'SELECT * FROM bai_viet WHERE id = ' . $id;
+        $post = $this->select($sql);
+
+        if (!empty($post)) {
+            return $post[0];
+        }
     }
 }
