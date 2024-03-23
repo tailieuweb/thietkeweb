@@ -1,6 +1,4 @@
 <?php
-require_once 'config.php';
-
 abstract class BaseModel {
     // Database connection
     protected static $_connection;
