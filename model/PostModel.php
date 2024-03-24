@@ -4,10 +4,11 @@ class PostModel extends BaseModel {
 
     // Lay 3 bai viet bao tang lich su
     public function lay3BaiVietBaoTangLichSu() {
-        $sql = 'SELECT * FROM bai_viet WHERE danh_muc_id = 1';
+        $sql = 'SELECT bai_viet.* FROM `bai_viet`
+                INNER JOIN danh_muc_bai_viet ON danh_muc_bai_viet.danh_muc_id = 1 AND danh_muc_bai_viet.bai_viet_id = bai_viet.id';
         $post = $this->select($sql);
 
-        $random = array_rand($post, 3);
+        $random = array_rand($post, 3);//Key của array
 
         $bai_viet_random = [];
         $bai_viet_random[0] = $post[$random[0]];
@@ -19,11 +20,11 @@ class PostModel extends BaseModel {
     // Lay bai viet bao tang lich su
     public function layBaiVietBaoTangLichSu() {
         $page = !empty($_GET['page']) ? $_GET['page'] : 1;
-        $from = 2 * ($page - 1);
-        $to =$from + 6;
+        $from = 6 * ($page - 1);
+        $to = $from + 6;
 
 
-        $sql = 'SELECT * FROM bai_viet WHERE danh_muc_id = 1 LIMIT ' . $from . ', 2';
+        $sql = 'SELECT bai_viet.* FROM `bai_viet` INNER JOIN danh_muc_bai_viet ON danh_muc_bai_viet.danh_muc_id = 1 LIMIT ' . $from . ', 6';
         $post = $this->select($sql);
 
         return $post;
@@ -31,14 +32,15 @@ class PostModel extends BaseModel {
     // Dem bai viet bao tang lich su
     public function demBaiVietBaoTangLichSu() {
 
-        $sql = 'SELECT * FROM bai_viet WHERE danh_muc_id = 1';
+        $sql = 'SELECT bai_viet.* FROM `bai_viet`
+                INNER JOIN danh_muc_bai_viet ON danh_muc_bai_viet.danh_muc_id = 1 AND danh_muc_bai_viet.bai_viet_id = bai_viet.id';
         $post = $this->select($sql);
         return count($post);
     }
 
     // Lay bai viet cac cong trinh giao thong
     public function layBaiVietCacCongTrinhGiaoThong() {
-        $sql = 'SELECT * FROM bai_viet WHERE danh_muc_id = 2 ';
+        $sql = 'SELECT bai_viet.* FROM `bai_viet` INNER JOIN danh_muc_bai_viet ON danh_muc_bai_viet.danh_muc_id = 2 ';
         $post = $this->select($sql);
 
         return $post;
@@ -46,7 +48,7 @@ class PostModel extends BaseModel {
 
     // Lay bai viet dia diem van song
     public function layBaiVietDiaDiemVanSong() {
-        $sql = 'SELECT * FROM bai_viet WHERE danh_muc_id = 3';
+        $sql = 'SELECT bai_viet.* FROM `bai_viet` INNER JOIN danh_muc_bai_viet ON danh_muc_bai_viet.danh_muc_id = 3';
         $post = $this->select($sql);
 
         return $post;

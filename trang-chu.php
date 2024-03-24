@@ -48,7 +48,10 @@ $bai_viet_ven_song = $bai_viet->layBaiVietDiaDiemVanSong();
                         $.each(data, function(index, value) {
                            //Clone
                             $new_row = $('.ds_bai_viet_bao_tang').find('tr:last').clone();
+
                             $new_row.find('.id').val(value.id);
+                            $new_row.find('.tieu_de').val(value.tieu_ve);
+
                             //Add to table
                             $('.ds_bai_viet_bao_tang').append($new_row);
                         })

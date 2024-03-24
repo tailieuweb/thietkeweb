@@ -19,7 +19,8 @@ switch ($danh_muc_id) {
         break;
 }
 
-$page = ceil($total/2);//2 trang demo
+$page = ceil($total/6);//2 trang demo
+
 ?>
 
 <html>
